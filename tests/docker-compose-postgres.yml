@@ -2,7 +2,7 @@ version: "2.3"
 
 services:
     mendixapp:
-        image: umkm/mendix-buildpack:mxbuild-10.24.1.74050-dotnet-x86_64
+        image: mulyadisaprianto13/umkm:1.0
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost"]
             interval: 15s
