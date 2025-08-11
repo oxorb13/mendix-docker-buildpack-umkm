@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+    mendixapp:
+        image: umkm_test-main_7/mendix-buildpack:mxbuild-10.24.1.74050-dotnet-x86_64
+        container_name: mendix-app-new
+        depends_on:
+            - db
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost"]
+            interval: 15s
+            retries: 2
+            start_period: 10s
+            timeout: 3s
+        environment:
+            ADMIN_PASSWORD: Mendix@123456789
+            DATABASE_ENDPOINT: postgres://mendix:mendix@db:5432/mendixdb
+        # MXRUNTIME_License_SubscriptionSecret: <subscription_secret>
+        # MXRUNTIME_License_UseLicenseServer: true
+        ports:
+            - "8080:8080"
+
+    db:
+        image: postgres:15
+        container_name: postgres_db
+        restart: always
+        environment:
+            POSTGRES_USER: mendix
+            POSTGRES_PASSWORD: mendix
+            POSTGRES_DB: mendixdb
+        ports:
+            - "5432:5432"
+        volumes:
+            - db_data:/var/lib/postgresql/data
+
+volumes:
+    db_data:
